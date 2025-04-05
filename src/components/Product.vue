@@ -10,7 +10,7 @@
       <h2 class="card-title">{{product.name}}</h2>
       <p>{{ product.about }}</p>
       <div class="card-actions justify-end">
-        <button class="btn btn-primary">Buy Now</button>
+        <button class="btn btn-primary" @click="addToCart(product)">Buy Now</button>
       </div>
     </div>
   </div>
@@ -21,6 +21,7 @@
 import {defineProps} from 'vue'
 
 defineProps({
-    products:Array
+    products:Array,
+    addToCart:Function
 })
 </script>
