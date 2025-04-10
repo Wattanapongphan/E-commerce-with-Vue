@@ -2,16 +2,21 @@ import { defineStore } from "pinia";
 
 export const useAdminProductStore = defineStore('admin-product',{
     state:()=>({
-        list:[]
+        list:[],
+        loaded:false
     }),
     actions:{
         loadProducts(){
             const products = localStorage.getItem('admin-products')
             if(products){
                 this.list = JSON.parse(products)
+                this.loaded = true
             }
         },
         getProduct(index){
+            if(!this.loaded){
+                this.loadProducts()
+            }
             return this.list[index]
         },
         addProduct(productData){

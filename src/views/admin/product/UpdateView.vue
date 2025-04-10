@@ -1,7 +1,7 @@
 <template>
     <AdminLayout>
         <div class="shadow-xl p-8 mt-4">
-            <div class="text-3xl">Add</div>
+            <div class="text-3xl">{{mode}}</div>
             <div class="divider"></div>
             <div class="grid grid-cols-2 gap-2">
                 <div v-for="form in formData" class="form-control w-full">
@@ -26,7 +26,7 @@
             </div>
             <div class="flex justify-end mt-4"> 
                 <button class="btn btn-ghost">BACK</button>
-                <button class="btn btn-neutral" @click="addProduct()">ADD</button>
+                <button class="btn btn-neutral" @click="updateProduct()">{{mode}}</button>
             </div>
         </div>
     </AdminLayout>
@@ -34,18 +34,26 @@
 
 <script setup>
 import AdminLayout from '@/layouts/AdminLayout.vue';
-import { reactive } from 'vue';
+import  {ref,reactive,onMounted } from 'vue';
 
-import { useRouter } from 'vue-router';
+import { useRouter,useRoute } from 'vue-router';
 const router = useRouter()
+const route = useRoute()
+
+const productIndex = ref(-1)
+const mode = ref('ADD')
 
 import {useAdminProductStore } from '@/stores/admin/product'
 const adminProductStore = useAdminProductStore()
 
 
-const addProduct = ()=>{
-    adminProductStore.addProduct(productData)
-    router.push({name:'admin-products-list'})
+const updateProduct = ()=>{
+    if(mode.value === 'EDIT'){
+        adminProductStore.updateProduct(productIndex.value,productData)
+    }else{
+        adminProductStore.addProduct(productData)
+    }
+        router.push({name:'admin-products-list'})
 }
 const productData = reactive({
     name:'',
@@ -78,4 +86,20 @@ const formData = [
         field: 'about'
     },
 ]
+
+onMounted(()=>{
+    if(route.params.id){
+        productIndex.value = parseInt(route.params.id)
+        mode.value = 'EDIT'
+
+        const selectedProduct = adminProductStore.getProduct(productIndex.value)
+        console.log(selectedProduct)
+        productData.name = selectedProduct.name
+        productData.image = selectedProduct.image
+        productData.price = selectedProduct.price
+        productData.quantity = selectedProduct.quantity
+        productData.about = selectedProduct.about
+        productData.status = selectedProduct.status
+    }
+})
 </script>
