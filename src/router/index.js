@@ -106,7 +106,7 @@ const router = createRouter({
   
     {
       path: '/admin/orders/detail/:id',
-      name: 'admin-user-detail',
+      name: 'admin-orders-detail',
       component: AdminOrderDetail,
     },
   

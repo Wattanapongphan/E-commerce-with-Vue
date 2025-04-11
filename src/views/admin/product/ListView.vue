@@ -11,7 +11,7 @@
         :headers="['name','image','price','quantity','status','updatedAt','']">
       <tr v-for="(product,index) in adminProductStore.list">
         <th>{{product.name}}</th>
-        <td><img :src="product.image" class="w-12"></td>
+        <td><img :src="product.imageUrl" class="w-12"></td>
         <td>{{product.price}}</td>
         <td>{{product.remainQuantity}}/{{product.quantity}}</td>
         <td>

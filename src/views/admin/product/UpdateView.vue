@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="flex justify-end mt-4"> 
-                <button class="btn btn-ghost">BACK</button>
+                <RouterLink :to="{name:'admin-products-list'}" class="btn btn-ghost">BACK</RouterLink>
                 <button class="btn btn-neutral" @click="updateProduct()">{{mode}}</button>
             </div>
         </div>
@@ -36,7 +36,7 @@
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import  {ref,reactive,onMounted } from 'vue';
 
-import { useRouter,useRoute } from 'vue-router';
+import { useRouter,useRoute,RouterLink } from 'vue-router';
 const router = useRouter()
 const route = useRoute()
 
@@ -57,7 +57,7 @@ const updateProduct = ()=>{
 }
 const productData = reactive({
     name:'',
-    image:'',
+    imageUrl:'',
     price:0,
     quantity:0,
     about:'',
@@ -71,7 +71,7 @@ const formData = [
     },
     {
         name: 'Image',
-        field: 'image'
+        field: 'imageUrl'
     },
     {
         name: 'Price',
@@ -95,7 +95,7 @@ onMounted(()=>{
         const selectedProduct = adminProductStore.getProduct(productIndex.value)
         console.log(selectedProduct)
         productData.name = selectedProduct.name
-        productData.image = selectedProduct.image
+        productData.imageUrl = selectedProduct.imageUrl
         productData.price = selectedProduct.price
         productData.quantity = selectedProduct.quantity
         productData.about = selectedProduct.about
